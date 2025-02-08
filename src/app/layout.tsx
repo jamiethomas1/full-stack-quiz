@@ -3,8 +3,7 @@ import { Inter } from "next/font/google";
 import type React from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { SignInButton } from "@/components/AuthButtons";
-import { SignOutButton } from "@/components/AuthButtons";
+import { SignInOutButton } from "@/components/AuthButtons";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,8 +29,7 @@ export default function RootLayout({
           <main className="container mx-auto px-4 py-8">
             <div className="flex justify-end mb-4 gap-4">
               <ThemeToggle />
-              <SignInButton />
-              <SignOutButton />
+              <SignInOutButton />
             </div>
             {children}
           </main>
