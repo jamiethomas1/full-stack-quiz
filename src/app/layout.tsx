@@ -3,9 +3,9 @@ import { Inter } from "next/font/google";
 import type React from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { SignInOutButton } from "@/components/AuthButtons";
+import { SignInButton } from "@/components/AuthButtons";
 import UserActions from "@/components/UserActions";
-import { SignedIn } from "@/components/AuthWrapper";
+import { SignedIn, SignedOut } from "@/components/AuthWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +34,9 @@ export default function RootLayout({
               <SignedIn>
                 <UserActions />
               </SignedIn>
-              <SignInOutButton />
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
             </div>
             {children}
           </main>

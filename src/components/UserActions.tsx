@@ -8,24 +8,46 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { redirect } from "next/navigation";
+import { Skeleton } from "./ui/skeleton";
+import { useEffect } from "react";
 
 export default function UserActions() {
-  const { data: session } = authClient.useSession();
-
+  const { data: session, isPending, refetch } = authClient.useSession();
   const user = session?.user;
+
+  useEffect(() => {
+    console.log("Session: ", session);
+    console.log("isPending: ", isPending);
+  }, [session, isPending]);
+
+  function handleSignOut() {
+    authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          refetch();
+          redirect("/");
+        },
+      },
+    });
+  }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer">
-          <AvatarImage src={user?.image as string | undefined} />
-          <AvatarFallback>Avatar</AvatarFallback>
-        </Avatar>
+        {isPending ? (
+          <Skeleton className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full" />
+        ) : (
+          <Avatar className="cursor-pointer">
+            <AvatarImage src={user?.image as string | undefined} />
+            <AvatarFallback>Avatar</AvatarFallback>
+          </Avatar>
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => {}}>Profile</DropdownMenuItem>
         <DropdownMenuItem onClick={() => {}}>Settings</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => {}}>Sign Out</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSignOut}>Sign Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
