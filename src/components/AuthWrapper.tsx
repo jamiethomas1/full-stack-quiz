@@ -1,23 +1,20 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+"use client";
+
+import { authClient } from "@/lib/auth-client";
 
 interface SignedInProps {
   children: React.ReactNode;
   fallback?: React.ReactNode;
 }
 
-export async function SignedIn({ children, fallback = null }: SignedInProps) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export function SignedIn({ children, fallback = null }: SignedInProps) {
+  const { data: session } = authClient.useSession();
 
   return session ? <>{children}</> : <>{fallback}</>;
 }
 
-export async function SignedOut({ children }: { children: React.ReactNode }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export function SignedOut({ children }: { children: React.ReactNode }) {
+  const { data: session } = authClient.useSession();
 
   if (session) return null;
 
