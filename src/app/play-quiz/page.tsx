@@ -1,22 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function PlayQuiz() {
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   const dummyQuestion = {
     question: "What is the capital of France?",
     answers: ["London", "Berlin", "Paris", "Madrid"],
-  }
+  };
 
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Play Quiz</h1>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">{dummyQuestion.question}</h2>
+      <div className="bg-secondary shadow-md rounded-lg p-6 mb-6">
+        <h2 className="text-xl text-primary font-semibold mb-4">
+          {dummyQuestion.question}
+        </h2>
         <div className="grid grid-cols-2 gap-4">
           {dummyQuestion.answers.map((answer, index) => (
             <Button
@@ -40,6 +42,5 @@ export default function PlayQuiz() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
-
