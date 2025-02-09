@@ -10,16 +10,10 @@ import {
 } from "./ui/dropdown-menu";
 import { redirect } from "next/navigation";
 import { Skeleton } from "./ui/skeleton";
-import { useEffect } from "react";
 
 export default function UserActions() {
   const { data: session, isPending, refetch } = authClient.useSession();
   const user = session?.user;
-
-  useEffect(() => {
-    console.log("Session: ", session);
-    console.log("isPending: ", isPending);
-  }, [session, isPending]);
 
   function handleSignOut() {
     authClient.signOut({
