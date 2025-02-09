@@ -7,7 +7,7 @@ export function SignInButton() {
   async function handleSignIn() {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/play-quiz",
+      callbackURL: "/",
     });
   }
 
