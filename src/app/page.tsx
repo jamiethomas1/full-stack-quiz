@@ -1,5 +1,6 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { SignedIn, SignedOut } from "@/components/AuthWrapper";
 
 export default function Home() {
   return (
@@ -14,8 +15,13 @@ export default function Home() {
             Join a Room
           </Button>
         </Link>
+        <SignedIn>
+          <p>You are signed in.</p>
+        </SignedIn>
+        <SignedOut>
+          <p>You are signed out.</p>
+        </SignedOut>
       </div>
     </div>
-  )
+  );
 }
-
