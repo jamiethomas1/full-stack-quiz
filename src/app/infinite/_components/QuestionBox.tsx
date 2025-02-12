@@ -38,8 +38,7 @@ export default function QuestionBox({
           ))}
         </div>
       </div>
-      <div className="flex justify-between">
-        <Button disabled>Previous</Button>
+      <div className="flex justify-end">
         <Button
           disabled={selectedAnswer === null}
           onClick={handleNextButtonClick}
