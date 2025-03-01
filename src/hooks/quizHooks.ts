@@ -8,6 +8,11 @@ interface OpenTDBQuestion {
   incorrect_answers: string[];
 }
 
+/**
+ * @summary Replaces encoded symbols in a string.
+ * @param encodedString - The string containing encoded symbols
+ * @returns The decoded string
+ */
 function decodeHtmlEntities(encodedString: string): string {
   const parser = new DOMParser();
   const decoded = parser.parseFromString(encodedString, "text/html").body

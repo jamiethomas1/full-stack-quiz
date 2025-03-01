@@ -3,19 +3,28 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
+/**
+ * @summary Used to determine whether to display correct answer
+ */
 enum QuestionStage {
   Asked,
   Submitted,
 }
 
+/**
+ * @summary The box encapsulating the question and answer logic
+ * @param question - The question metadata
+ * @param getCorrectAnswer - Function called on clicking 'Submit'
+ * @param nextQuestionAction - Function called on clicking 'Next'
+ */
 export default function QuestionBox({
   question,
-  nextQuestionAction,
   getCorrectAnswer,
+  nextQuestionAction,
 }: {
   question: QuestionWithoutAnswer;
-  nextQuestionAction: () => void;
   getCorrectAnswer: () => number;
+  nextQuestionAction: () => void;
 }) {
   const { question_text, correct_answer, available_answers } = question;
 

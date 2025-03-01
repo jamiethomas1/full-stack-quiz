@@ -7,6 +7,9 @@ import { useTrivia } from "@/hooks/quizHooks";
 import QuestionBoxSkeleton from "./_components/QuestionBoxSkeleton";
 import { useEffect, useState } from "react";
 
+/**
+ * @summary Infinite questions mode
+ */
 export default function Infinite() {
   const { isPending, questions, answers, refetch } = useTrivia(10);
 
