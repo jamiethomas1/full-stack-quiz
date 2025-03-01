@@ -22,6 +22,7 @@ export function useTrivia(count: number, categoryId?: number) {
       );
       return await response.json();
     },
+    refetchOnWindowFocus: false,
   });
 
   if (!data) {
