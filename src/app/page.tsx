@@ -10,14 +10,17 @@ export default function Home() {
         <Link href="/create-room">
           <Button className="w-full">Create a Room</Button>
         </Link>
+
         <Link href="/join-room">
           <Button className="w-full" variant="outline">
             Join a Room
           </Button>
         </Link>
+
         <SignedIn>
           <p>You are signed in.</p>
         </SignedIn>
+
         <SignedOut>
           <p>You are signed out.</p>
         </SignedOut>
