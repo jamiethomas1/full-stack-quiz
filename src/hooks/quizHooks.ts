@@ -8,6 +8,13 @@ interface OpenTDBQuestion {
   incorrect_answers: string[];
 }
 
+function decodeHtmlEntities(encodedString: string): string {
+  const parser = new DOMParser();
+  const decoded = parser.parseFromString(encodedString, "text/html").body
+    .textContent;
+  return decoded || "";
+}
+
 /**
  * @param count - The number of questions to fetch
  * @param categoryId - OpenTDB category ID
@@ -70,9 +77,9 @@ export function useTrivia(count: number, categoryId?: number) {
       const correct_answer = available_answers.indexOf(question.correct_answer);
 
       return {
-        question_text: question.question,
+        question_text: decodeHtmlEntities(question.question),
         correct_answer,
-        available_answers,
+        available_answers: available_answers.map(decodeHtmlEntities),
         question_id: index,
       };
     },
