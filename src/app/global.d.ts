@@ -1,14 +1,20 @@
 declare global {
-  interface OpenTDBQuestion {
-    question: string;
-    correct_answer: string;
-    incorrect_answers: string[];
+  interface QuestionWithoutAnswer {
+    question_id: number;
+    question_text: string;
+    available_answers: string[];
   }
 
-  interface Question {
+  interface QuestionWithAnswer {
+    question_id: number;
     question_text: string;
-    correct_answer: string;
+    correct_answer: number;
     available_answers: string[];
+  }
+
+  interface QuestionAnswer {
+    question_id: number;
+    correct_answer: number;
   }
 }
 
