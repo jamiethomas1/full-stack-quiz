@@ -3,20 +3,59 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
+enum QuestionStage {
+  Asked,
+  Submitted,
+}
+
 export default function QuestionBox({
   question,
   nextQuestionAction,
+  getCorrectAnswer,
 }: {
-  question: Question;
+  question: QuestionWithoutAnswer;
   nextQuestionAction: () => void;
+  getCorrectAnswer: () => number;
 }) {
   const { question_text, correct_answer, available_answers } = question;
 
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [stage, setStage] = useState<QuestionStage>(QuestionStage.Asked);
+  const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
+
+  function resetQuestionBox() {
+    setSelectedAnswer(null);
+    setStage(QuestionStage.Asked);
+  }
 
   function handleNextButtonClick() {
-    setSelectedAnswer(null);
+    resetQuestionBox();
     nextQuestionAction();
+  }
+
+  function handleSubmitButtonClick() {
+    setStage(QuestionStage.Submitted);
+    setCorrectAnswer(getCorrectAnswer());
+  }
+
+  function getButtonColor(
+    index: number,
+  ): "default" | "outline" | "success" | "destructive" {
+    if (stage === QuestionStage.Submitted) {
+      if (index === correctAnswer) {
+        return "success";
+      }
+
+      if (selectedAnswer !== correctAnswer && selectedAnswer === index) {
+        return "destructive";
+      }
+    }
+
+    if (selectedAnswer !== index) return "outline";
+
+    if (selectedAnswer === correct_answer) return "success";
+
+    return "default";
   }
 
   return (
@@ -29,7 +68,7 @@ export default function QuestionBox({
           {available_answers.map((answer, index) => (
             <Button
               key={answer}
-              variant={selectedAnswer === index ? "default" : "outline"}
+              variant={getButtonColor(index)}
               className="h-20 text-lg"
               onClick={() => setSelectedAnswer(index)}
             >
@@ -38,13 +77,18 @@ export default function QuestionBox({
           ))}
         </div>
       </div>
-      <div className="flex justify-end">
-        <Button
-          disabled={selectedAnswer === null}
-          onClick={handleNextButtonClick}
-        >
-          Next
-        </Button>
+      <div className="flex justify-center">
+        {stage === QuestionStage.Asked && (
+          <Button
+            disabled={selectedAnswer === null}
+            onClick={handleSubmitButtonClick}
+          >
+            Submit
+          </Button>
+        )}
+        {stage === QuestionStage.Submitted && (
+          <Button onClick={handleNextButtonClick}>Next</Button>
+        )}
       </div>
     </>
   );

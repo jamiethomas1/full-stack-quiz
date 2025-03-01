@@ -2,6 +2,17 @@ import { env } from "@/env.mjs";
 import shuffleArray from "@/lib/shuffle-array";
 import { useQuery } from "@tanstack/react-query";
 
+interface OpenTDBQuestion {
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+}
+
+/**
+ * @param count - The number of questions to fetch
+ * @param categoryId - OpenTDB category ID
+ * @returns Separate question and answer arrays
+ */
 export function useTrivia(count: number, categoryId?: number) {
   const { isPending, error, data, isFetching, refetch } = useQuery({
     queryKey: [count, categoryId],
@@ -14,7 +25,14 @@ export function useTrivia(count: number, categoryId?: number) {
   });
 
   if (!data) {
-    return { isPending, error, questions: [], isFetching, refetch };
+    return {
+      isPending,
+      error,
+      questions: [],
+      answers: [],
+      isFetching,
+      refetch,
+    };
   }
 
   const { results, response_code } = data;
@@ -42,16 +60,40 @@ export function useTrivia(count: number, categoryId?: number) {
     }
   }
 
-  const questions: Question[] = results.map((question: OpenTDBQuestion) => ({
-    question: undefined,
-    incorrect_answers: undefined,
-    question_text: question.question,
-    correct_answer: question.correct_answer,
-    available_answers: shuffleArray([
-      question.correct_answer,
-      ...question.incorrect_answers,
-    ]),
-  }));
+  const _questions: QuestionWithAnswer[] = results.map(
+    (question: OpenTDBQuestion, index: number) => {
+      const available_answers = shuffleArray([
+        question.correct_answer,
+        ...question.incorrect_answers,
+      ]);
+      const correct_answer = available_answers.indexOf(question.correct_answer);
 
-  return { isPending, error, questions, isFetching, refetch };
+      return {
+        question_text: question.question,
+        correct_answer,
+        available_answers,
+        question_id: index,
+      };
+    },
+  );
+
+  const questions: QuestionWithoutAnswer[] = _questions.map(
+    (question: QuestionWithAnswer) => {
+      return {
+        ...question,
+        correct_answer: null,
+      };
+    },
+  );
+
+  const answers: QuestionAnswer[] = _questions.map(
+    (question: QuestionWithAnswer) => {
+      return {
+        question_id: question.question_id,
+        correct_answer: question.correct_answer,
+      };
+    },
+  );
+
+  return { isPending, error, questions, answers, isFetching, refetch };
 }

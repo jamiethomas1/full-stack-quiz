@@ -8,7 +8,7 @@ import QuestionBoxSkeleton from "./_components/QuestionBoxSkeleton";
 import { useEffect, useState } from "react";
 
 export default function Infinite() {
-  const { isPending, questions, refetch } = useTrivia(10);
+  const { isPending, questions, answers, refetch } = useTrivia(10);
 
   const [index, setIndex] = useState<number>(0);
 
@@ -23,6 +23,10 @@ export default function Infinite() {
     setIndex((index) => index + 1);
   }
 
+  function getAnswer(): number {
+    return answers[index].correct_answer;
+  }
+
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Infinite Mode</h1>
@@ -32,6 +36,7 @@ export default function Infinite() {
         <QuestionBox
           question={questions[index]}
           nextQuestionAction={handleIncrementIndex}
+          getCorrectAnswer={() => getAnswer()}
         />
       )}
       <div className="mt-4">
