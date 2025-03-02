@@ -37,6 +37,11 @@ export default function QuestionBox({
     setStage(QuestionStage.Asked);
   }
 
+  function handleSelectAnswer(index: number) {
+    if (stage === QuestionStage.Submitted) return;
+    setSelectedAnswer(index);
+  }
+
   function handleNextButtonClick() {
     resetQuestionBox();
     nextQuestionAction();
@@ -77,7 +82,7 @@ export default function QuestionBox({
               key={answer}
               variant={getButtonColor(index)}
               className="h-20 text-lg"
-              onClick={() => setSelectedAnswer(index)}
+              onClick={() => handleSelectAnswer(index)}
             >
               {answer}
             </Button>
