@@ -26,7 +26,7 @@ export default function QuestionBox({
   getCorrectAnswer: () => number;
   nextQuestionAction: () => void;
 }) {
-  const { question_text, correct_answer, available_answers } = question;
+  const { question_text, available_answers } = question;
 
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [stage, setStage] = useState<QuestionStage>(QuestionStage.Asked);
