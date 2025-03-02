@@ -9,18 +9,6 @@ interface OpenTDBQuestion {
 }
 
 /**
- * @summary Replaces encoded symbols in a string.
- * @param encodedString - The string containing encoded symbols
- * @returns The decoded string
- */
-function decodeHtmlEntities(encodedString: string): string {
-  const parser = new DOMParser();
-  const decoded = parser.parseFromString(encodedString, "text/html").body
-    .textContent;
-  return decoded || "";
-}
-
-/**
  * @param count - The number of questions to fetch
  * @param categoryId - OpenTDB category ID
  * @returns Separate question and answer arrays
@@ -30,7 +18,7 @@ export function useTrivia(count: number, categoryId?: number) {
     queryKey: [count, categoryId],
     queryFn: async () => {
       const response = await fetch(
-        `${env.NEXT_PUBLIC_OPENTDB_API_URL}?amount=${count}${categoryId ? "&category=" + categoryId : ""}`,
+        `${env.NEXT_PUBLIC_OPENTDB_API_URL}?amount=${count}&encode=base64${categoryId ? "&category=" + categoryId : ""}`,
       );
       return await response.json();
     },
@@ -82,9 +70,9 @@ export function useTrivia(count: number, categoryId?: number) {
       const correct_answer = available_answers.indexOf(question.correct_answer);
 
       return {
-        question_text: decodeHtmlEntities(question.question),
+        question_text: atob(question.question),
         correct_answer,
-        available_answers: available_answers.map(decodeHtmlEntities),
+        available_answers: available_answers.map(atob),
         question_id: index,
       };
     },
