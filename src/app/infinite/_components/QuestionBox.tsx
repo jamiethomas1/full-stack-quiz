@@ -62,8 +62,6 @@ export default function QuestionBox({
 
     if (selectedAnswer !== index) return "outline";
 
-    if (selectedAnswer === correct_answer) return "success";
-
     return "default";
   }
 
