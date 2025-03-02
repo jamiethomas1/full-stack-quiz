@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import QuestionBox from "./_components/QuestionBox";
 import { useTrivia } from "@/hooks/quizHooks";
 import QuestionBoxSkeleton from "./_components/QuestionBoxSkeleton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 /**
  * @summary Infinite questions mode
@@ -15,14 +15,12 @@ export default function Infinite() {
 
   const [index, setIndex] = useState<number>(0);
 
-  useEffect(() => {
+  async function handleIncrementIndex() {
     if (index === 9) {
-      refetch();
-      setIndex(0);
+      await refetch();
+      return setIndex(0);
     }
-  }, [index, refetch]);
 
-  function handleIncrementIndex() {
     setIndex((index) => index + 1);
   }
 
