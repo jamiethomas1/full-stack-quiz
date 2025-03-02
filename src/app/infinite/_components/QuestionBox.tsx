@@ -60,9 +60,9 @@ export default function QuestionBox({
       }
     }
 
-    if (selectedAnswer !== index) return "outline";
+    if (selectedAnswer === index) return "default";
 
-    return "default";
+    return "outline";
   }
 
   return (
