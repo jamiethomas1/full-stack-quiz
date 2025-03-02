@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { SignInButton } from "@/components/AuthButtons";
 import UserActions from "@/components/UserActions";
 import { SignedIn, SignedOut } from "@/components/AuthWrapper";
+import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,18 +29,20 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="container mx-auto px-4 py-8">
-            <div className="flex justify-end mb-4 gap-4">
-              <ThemeToggle />
-              <SignedIn>
-                <UserActions />
-              </SignedIn>
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-            </div>
-            {children}
-          </main>
+          <Providers>
+            <main className="container mx-auto px-4 py-8">
+              <div className="flex justify-end mb-4 gap-4">
+                <ThemeToggle />
+                <SignedIn>
+                  <UserActions />
+                </SignedIn>
+                <SignedOut>
+                  <SignInButton />
+                </SignedOut>
+              </div>
+              {children}
+            </main>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
