@@ -24,6 +24,14 @@ export default function Infinite() {
   const questionCount = useRef(0);
   const correctCount = useRef(0);
 
+  async function resetQuizState() {
+    await refetch();
+    setIndex(0);
+    questionCount.current = 0;
+    correctCount.current = 0;
+    setQuizState(QuizState.IN_PROGRESS);
+  }
+
   async function handleIncrementIndex() {
     if (index === 9) {
       await refetch();
@@ -63,6 +71,7 @@ export default function Infinite() {
         <EndScreen
           questionCount={questionCount.current}
           correctCount={correctCount.current}
+          newQuiz={resetQuizState}
         />
       ) : (
         <></>
