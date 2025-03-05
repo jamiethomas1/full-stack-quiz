@@ -1,17 +1,18 @@
-import { pgTable, text, timestamp, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, uuid } from "drizzle-orm/pg-core";
 
-import { user } from "./auth";
+import { user } from "./authTables";
+import { sql } from "drizzle-orm";
 
 export const score = pgTable("score", {
-  id: text("id").primaryKey(),
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   quizType: text("quiz_type").notNull(),
   numQuestions: integer("num_questions").notNull(),
   numCorrect: integer("num_correct").notNull(),
-  timeStarted: timestamp("time_started").notNull(),
-  timeFinished: timestamp("time_finished").notNull(),
-  createdAt: timestamp("created_at").notNull(),
-  updatedAt: timestamp("updated_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

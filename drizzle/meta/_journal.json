@@ -15,6 +15,13 @@
       "when": 1741042669989,
       "tag": "0001_tidy_doctor_spectrum",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741213918860,
+      "tag": "0002_curly_tarot",
+      "breakpoints": true
     }
   ]
 }
