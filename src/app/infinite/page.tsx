@@ -60,7 +60,7 @@ export default function Infinite() {
         <QuestionBox
           question={questions[index]}
           nextQuestionAction={handleIncrementIndex}
-          getCorrectAnswer={() => getAnswer()}
+          getCorrectAnswer={getAnswer}
           incrementCorrect={handleCorrectAnswer}
         />
       ) : (
@@ -71,7 +71,7 @@ export default function Infinite() {
         <EndScreen
           questionCount={questionCount.current}
           correctCount={correctCount.current}
-          newQuiz={resetQuizState}
+          newQuizAction={resetQuizState}
         />
       ) : (
         <></>
