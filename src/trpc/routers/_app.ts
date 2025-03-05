@@ -7,7 +7,7 @@ export const appRouter = createTRPCRouter({
   score: baseProcedure
     .input(
       z.object({
-        quiz_type: z.string(),
+        quiz_type: z.enum(["infinite"]),
         num_questions: z.number().positive(),
         num_correct: z.number().positive(),
       }),
