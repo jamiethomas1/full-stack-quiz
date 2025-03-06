@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 /**
@@ -16,15 +16,18 @@ enum QuestionStage {
  * @param question - The question metadata
  * @param getCorrectAnswer - Function called on clicking 'Submit'
  * @param nextQuestionAction - Function called on clicking 'Next'
+ * @param incrementCorrect - Function called on correct answer
  */
 export default function QuestionBox({
   question,
   getCorrectAnswer,
   nextQuestionAction,
+  incrementCorrect,
 }: {
   question: QuestionWithoutAnswer;
   getCorrectAnswer: () => number;
   nextQuestionAction: () => void;
+  incrementCorrect: () => void;
 }) {
   const { question_text, available_answers } = question;
 
@@ -51,6 +54,16 @@ export default function QuestionBox({
     setStage(QuestionStage.Submitted);
     setCorrectAnswer(getCorrectAnswer());
   }
+
+  useEffect(() => {
+    if (stage !== QuestionStage.Submitted) {
+      return;
+    }
+
+    if (selectedAnswer === correctAnswer) {
+      incrementCorrect();
+    }
+  }, [stage, correctAnswer, selectedAnswer, incrementCorrect]);
 
   function getButtonColor(
     index: number,

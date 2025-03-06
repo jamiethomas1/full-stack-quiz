@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1741042386492,
+      "tag": "0000_black_mattie_franklin",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1741042669989,
+      "tag": "0001_tidy_doctor_spectrum",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741213918860,
+      "tag": "0002_curly_tarot",
+      "breakpoints": true
+    }
+  ]
+}
