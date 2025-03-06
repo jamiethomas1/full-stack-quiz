@@ -8,6 +8,18 @@ interface OpenTDBQuestion {
   incorrect_answers: string[];
 }
 
+function b64DecodeUnicode(str: string) {
+  // Going backwards: from bytestream, to percent-encoding, to original string.
+  return decodeURIComponent(
+    atob(str)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(""),
+  );
+}
+
 /**
  * @param count - The number of questions to fetch
  * @param categoryId - OpenTDB category ID
@@ -70,9 +82,9 @@ export function useTrivia(count: number, categoryId?: number) {
       const correct_answer = available_answers.indexOf(question.correct_answer);
 
       return {
-        question_text: atob(question.question),
+        question_text: b64DecodeUnicode(question.question),
         correct_answer,
-        available_answers: available_answers.map(atob),
+        available_answers: available_answers.map(b64DecodeUnicode),
         question_id: index,
       };
     },
