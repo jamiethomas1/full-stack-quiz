@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useEffect } from "react";
 
 interface EndScreenProps {
   questionCount: number;
@@ -25,24 +26,37 @@ export default function EndScreen({
   const trpc = useTRPC();
 
   const scoreMutationOptions = trpc.score.mutationOptions();
-  const scoreMutation = useMutation(scoreMutationOptions);
+  const mutationKey = trpc.score.mutationKey();
+  const { mutate, isPending, isError, isSuccess } = useMutation({
+    ...scoreMutationOptions,
+    mutationKey,
+  });
 
-  const handleSubmitScore = () => {
-    scoreMutation.mutate({
+  useEffect(() => {
+    if (isSuccess) return;
+
+    mutate({
       quiz_type: "infinite",
       num_questions: questionCount,
       num_correct: correctCount,
     });
-  };
+  }, [isSuccess, questionCount, correctCount, mutate]);
+
+  const pendingMessage = <p>Submitting score...</p>;
+  const failureMessage = (
+    <p className="font-bold text-destructive">Failed to submit score</p>
+  );
 
   return (
     <div className="flex flex-col gap-4">
       <p className="text-center">
         You correctly answered {correctCount} out of {questionCount} questions
       </p>
+      {isPending ? pendingMessage : <></>}
+      {isError ? failureMessage : <></>}
+      {isSuccess ? <p>Score submitted</p> : <></>}
       <div className="flex flex-col items-center gap-2 w-fit mx-auto">
         <Button onClick={newQuizAction}>Start a new quiz</Button>
-        <Button onClick={handleSubmitScore}>Submit score</Button>
         <Button>Change quiz mode</Button>
         <Link href="/">
           <Button>Back to home</Button>
