@@ -8,8 +8,8 @@ export const appRouter = createTRPCRouter({
     .input(
       z.object({
         quiz_type: z.enum(["infinite"]),
-        num_questions: z.number().positive(),
-        num_correct: z.number().positive(),
+        num_questions: z.number().gte(0),
+        num_correct: z.number().gte(0),
       }),
     )
     .mutation(async ({ ctx, input }) => {
