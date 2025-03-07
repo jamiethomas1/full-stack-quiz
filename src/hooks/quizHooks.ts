@@ -8,6 +8,11 @@ interface OpenTDBQuestion {
   incorrect_answers: string[];
 }
 
+/**
+ * @summary Decodes a base64 string, accounting for special characters
+ * @param str - The base64 string to decode
+ * @returns The decoded utf-8 string
+ */
 function b64DecodeUnicode(str: string) {
   // Going backwards: from bytestream, to percent-encoding, to original string.
   return decodeURIComponent(
@@ -21,6 +26,7 @@ function b64DecodeUnicode(str: string) {
 }
 
 /**
+ * @summary useQuery wrapper that gets `count` number of OpenTDB questions
  * @param count - The number of questions to fetch
  * @param categoryId - OpenTDB category ID
  * @returns Separate question and answer arrays
