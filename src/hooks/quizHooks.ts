@@ -9,6 +9,24 @@ interface OpenTDBQuestion {
 }
 
 /**
+ * @summary Decodes a base64 string, accounting for special characters
+ * @param str - The base64 string to decode
+ * @returns The decoded utf-8 string
+ */
+function b64DecodeUnicode(str: string) {
+  // Going backwards: from bytestream, to percent-encoding, to original string.
+  return decodeURIComponent(
+    atob(str)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(""),
+  );
+}
+
+/**
+ * @summary useQuery wrapper that gets `count` number of OpenTDB questions
  * @param count - The number of questions to fetch
  * @param categoryId - OpenTDB category ID
  * @returns Separate question and answer arrays
@@ -70,9 +88,9 @@ export function useTrivia(count: number, categoryId?: number) {
       const correct_answer = available_answers.indexOf(question.correct_answer);
 
       return {
-        question_text: atob(question.question),
+        question_text: b64DecodeUnicode(question.question),
         correct_answer,
-        available_answers: available_answers.map(atob),
+        available_answers: available_answers.map(b64DecodeUnicode),
         question_id: index,
       };
     },
