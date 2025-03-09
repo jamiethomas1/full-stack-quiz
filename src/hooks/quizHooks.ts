@@ -43,7 +43,7 @@ export function useTrivia(count: number, categoryId?: number) {
     refetchOnWindowFocus: false,
   });
 
-  if (!data) {
+  if (!data || error) {
     return {
       isPending,
       error,
@@ -56,27 +56,39 @@ export function useTrivia(count: number, categoryId?: number) {
 
   const { results, response_code } = data;
 
+  let triviaError = "";
+
   switch (response_code) {
     case 0: {
       break;
     }
     case 1: {
-      console.error(
-        "count parameter is larger than number of available questions",
-      );
+      triviaError =
+        "Count parameter is larger than number of available questions";
       break;
     }
     case 2: {
-      console.error("Invalid parameters in query to OpenTDB");
+      triviaError = "Invalid parameters in query to OpenTDB";
       break;
     }
     case 5: {
-      console.error("Rate limit exceeded");
+      triviaError = "Rate limit exceeded";
       break;
     }
     default: {
-      console.error(`Unhandled response code ${response_code}`);
+      triviaError = `Unhandled response code ${response_code}`;
     }
+  }
+
+  if (triviaError !== "") {
+    return {
+      isPending,
+      error: new Error(triviaError),
+      questions: [],
+      answers: [],
+      isFetching,
+      refetch,
+    };
   }
 
   const _questions: QuestionWithAnswer[] = results.map(
@@ -85,6 +97,7 @@ export function useTrivia(count: number, categoryId?: number) {
         question.correct_answer,
         ...question.incorrect_answers,
       ]);
+
       const correct_answer = available_answers.indexOf(question.correct_answer);
 
       return {

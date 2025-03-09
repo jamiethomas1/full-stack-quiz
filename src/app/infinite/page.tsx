@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import QuestionBox from "./_components/QuestionBox";
 import { useTrivia } from "@/hooks/quizHooks";
 import QuestionBoxSkeleton from "./_components/QuestionBoxSkeleton";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EndScreen from "./_components/EndScreen";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 enum QuizState {
   IN_PROGRESS,
@@ -16,13 +18,21 @@ enum QuizState {
  * @summary Infinite questions mode
  */
 export default function Infinite() {
-  const { isPending, questions, answers, refetch } = useTrivia(10);
+  const { isPending, error, questions, answers, refetch } = useTrivia(10);
 
   const [index, setIndex] = useState<number>(0);
   const [quizState, setQuizState] = useState<QuizState>(QuizState.IN_PROGRESS);
 
   const questionCount = useRef(0);
   const correctCount = useRef(0);
+
+  useEffect(() => {
+    if (!error) return;
+
+    toast.error("API Error", {
+      description: error.message,
+    });
+  });
 
   async function resetQuizState() {
     await refetch();
@@ -53,6 +63,8 @@ export default function Infinite() {
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Infinite Mode</h1>
+
+      <Toaster position="top-right" richColors />
 
       {isPending || !questions.length ? <QuestionBoxSkeleton /> : <></>}
 
