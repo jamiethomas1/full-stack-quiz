@@ -3,6 +3,7 @@ import { baseProcedure, createTRPCRouter } from "../init";
 import { db } from "@/lib/db";
 import { score } from "@/db/schema/score";
 import { totalScore } from "@/db/schema/totalScore";
+import { eq, and, sql } from "drizzle-orm";
 
 export const appRouter = createTRPCRouter({
   score: baseProcedure
@@ -36,8 +37,8 @@ export const appRouter = createTRPCRouter({
         .onConflictDoUpdate({
           target: [totalScore.userId, totalScore.quizType],
           set: {
-            numQuestions: input.num_questions,
-            numCorrect: input.num_correct,
+            numQuestions: sql`${totalScore.numQuestions} + ${input.num_questions}`,
+            numCorrect: sql`${totalScore.numCorrect} + ${input.num_correct}`,
           },
         });
     }),
