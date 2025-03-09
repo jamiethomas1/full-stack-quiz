@@ -64,7 +64,7 @@ export default function Infinite() {
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Infinite Mode</h1>
 
-      <Toaster position="top-right" richColors />
+      <Toaster position="top-center" richColors />
 
       {isPending || !questions.length ? <QuestionBoxSkeleton /> : <></>}
 
