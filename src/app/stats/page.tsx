@@ -46,7 +46,7 @@ export default function StatsPage() {
       : (infinite.correct / infinite.questions) * 100;
 
   const { data, isPending } = useQuery(
-    trpc.totalScore.queryOptions({ quiz_type: "infinite" }),
+    trpc.quizRouter.totalScore.queryOptions({ quiz_type: "infinite" }),
   );
 
   useEffect(() => {
