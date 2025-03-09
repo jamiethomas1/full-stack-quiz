@@ -40,6 +40,9 @@ export default function UserActions() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => {}}>Profile</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => redirect("/stats")}>
+          Stats
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => {}}>Settings</DropdownMenuItem>
         <DropdownMenuItem onClick={handleSignOut}>Sign Out</DropdownMenuItem>
       </DropdownMenuContent>
