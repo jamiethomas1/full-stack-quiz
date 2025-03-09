@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 interface SignedInProps {
   children: React.ReactNode;
@@ -19,4 +20,8 @@ export function SignedOut({ children }: { children: React.ReactNode }) {
   if (session) return null;
 
   return <>{children}</>;
+}
+
+export function Redirect({ to }: { to: string }): never {
+  redirect(to);
 }
