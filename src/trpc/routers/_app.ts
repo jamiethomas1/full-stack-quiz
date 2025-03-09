@@ -42,6 +42,31 @@ export const appRouter = createTRPCRouter({
           },
         });
     }),
+  totalScore: baseProcedure
+    .input(
+      z.object({
+        quiz_type: z.enum(["infinite"]),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      if (!ctx.userId) {
+        throw new Error("Unauthorized");
+      }
+
+      return await db
+        .select({
+          numQuestions: totalScore.numQuestions,
+          numCorrect: totalScore.numCorrect,
+        })
+        .from(totalScore)
+        .where(
+          and(
+            eq(totalScore.userId, ctx.userId),
+            eq(totalScore.quizType, input.quiz_type),
+          ),
+        )
+        .limit(1);
+    }),
 });
 
 export type AppRouter = typeof appRouter;
