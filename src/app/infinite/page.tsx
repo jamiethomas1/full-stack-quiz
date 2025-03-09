@@ -32,7 +32,7 @@ export default function Infinite() {
     toast.error("API Error", {
       description: error.message,
     });
-  });
+  }, [error]);
 
   async function resetQuizState() {
     await refetch();
