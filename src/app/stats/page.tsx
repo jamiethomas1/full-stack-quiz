@@ -6,10 +6,10 @@ import { useTRPC } from "@/trpc/client";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-interface StatBoxProps {
+type StatBoxProps = {
   stat: string | number;
   description: string;
-}
+};
 
 function StatBox({ stat, description }: StatBoxProps) {
   return (

@@ -3,10 +3,10 @@
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 
-interface SignedInProps {
+type SignedInProps = {
   children: React.ReactNode;
   fallback?: React.ReactNode;
-}
+};
 
 export function SignedIn({ children, fallback = null }: SignedInProps) {
   const { data: session } = authClient.useSession();

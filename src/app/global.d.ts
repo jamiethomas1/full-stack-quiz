@@ -1,21 +1,21 @@
 declare global {
-  interface QuestionWithoutAnswer {
+  type QuestionWithoutAnswer = {
     question_id: number;
     question_text: string;
     available_answers: string[];
-  }
+  };
 
-  interface QuestionWithAnswer {
+  type QuestionWithAnswer = {
     question_id: number;
     question_text: string;
     correct_answer: number;
     available_answers: string[];
-  }
+  };
 
-  interface QuestionAnswer {
+  type QuestionAnswer = {
     question_id: number;
     correct_answer: number;
-  }
+  };
 }
 
 export {};

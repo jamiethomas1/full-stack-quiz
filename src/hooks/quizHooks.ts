@@ -2,11 +2,11 @@ import { env } from "@/env.mjs";
 import shuffleArray from "@/lib/shuffle-array";
 import { useQuery } from "@tanstack/react-query";
 
-interface OpenTDBQuestion {
+type OpenTDBQuestion = {
   question: string;
   correct_answer: string;
   incorrect_answers: string[];
-}
+};
 
 /**
  * @summary Decodes a base64 string, accounting for special characters

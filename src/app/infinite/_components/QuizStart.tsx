@@ -2,10 +2,10 @@ import { Combobox } from "@/components/Combobox";
 import { categories } from "./categories";
 import { Button } from "@/components/ui/button";
 
-interface QuizStartProps {
+type QuizStartProps = {
   action: () => void;
   setCategoryAction: (value: string) => void;
-}
+};
 
 /**
  * @summary This screen shows at the start of a quiz, allowing the user to change quiz settings

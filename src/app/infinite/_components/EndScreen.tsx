@@ -6,11 +6,11 @@ import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useEffect } from "react";
 
-interface EndScreenProps {
+type EndScreenProps = {
   questionCount: number;
   correctCount: number;
   newQuizAction: () => void;
-}
+};
 
 /**
  * @summary This screen shows at the end of a quiz, displaying scores and options
