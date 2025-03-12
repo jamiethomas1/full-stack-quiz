@@ -31,7 +31,7 @@ function b64DecodeUnicode(str: string) {
  * @param categoryId - OpenTDB category ID
  * @returns Separate question and answer arrays
  */
-export function useTrivia(count: number, categoryId?: number) {
+export function useTrivia(count: number, categoryId?: number | string) {
   const { isPending, error, data, isFetching, refetch } = useQuery({
     queryKey: [count, categoryId],
     queryFn: async () => {
@@ -41,6 +41,7 @@ export function useTrivia(count: number, categoryId?: number) {
       return await response.json();
     },
     refetchOnWindowFocus: false,
+    enabled: false,
   });
 
   if (!data || error) {

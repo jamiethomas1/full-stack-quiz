@@ -25,8 +25,8 @@ export default function EndScreen({
 }: EndScreenProps) {
   const trpc = useTRPC();
 
-  const scoreMutationOptions = trpc.score.mutationOptions();
-  const mutationKey = trpc.score.mutationKey();
+  const scoreMutationOptions = trpc.quizRouter.score.mutationOptions();
+  const mutationKey = trpc.quizRouter.score.mutationKey();
   const { mutate, isPending, isError, isSuccess } = useMutation({
     ...scoreMutationOptions,
     mutationKey,
