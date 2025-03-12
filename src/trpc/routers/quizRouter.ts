@@ -68,5 +68,3 @@ export const quizRouter = createTRPCRouter({
         .limit(1);
     }),
 });
-
-export type AppRouter = typeof appRouter;
